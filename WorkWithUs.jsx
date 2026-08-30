@@ -15,6 +15,43 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
+const InputField = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  hint,
+}) => {
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="mb-1 block text-[17px] font-black leading-6 text-slate-900 md:text-lg"
+      >
+        {label}
+      </label>
+
+      <input
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        type={type}
+        required
+        className="h-[58px] w-full rounded-2xl border-2 border-slate-200 bg-white px-5 text-[17px] font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 md:text-lg"
+      />
+
+      {hint && (
+        <p className="mt-1 text-sm font-semibold leading-5 text-slate-400">
+          {hint}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const MP4_VIDEO_URL = "YOUR_DIRECT_MP4_URL_HERE";
 
@@ -138,47 +175,6 @@ function SectionIntro({ eyebrow, title, description, dark = false }) {
   );
 }
 
-function InputField({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  hint,
-}) {
-  return (
-    <div className="space-y-3">
-      <label
-        htmlFor={name}
-        className="block text-[17px] font-black leading-7 text-slate-900 md:text-lg"
-      >
-        {label}
-        <span className="mr-1 text-blue-600">*</span>
-      </label>
-
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        required
-        dir="auto"
-        autoComplete="off"
-        className="h-16 w-full rounded-2xl border-2 border-slate-200 bg-white px-5 text-[17px] font-semibold text-slate-900 outline-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 md:h-[68px] md:px-6 md:text-lg"
-      />
-
-      {hint && (
-        <p className="text-sm font-semibold leading-6 text-slate-400 md:text-[15px]">
-          {hint}
-        </p>
-      )}
-    </div>
-  );
-}
-
 function SelectField({ label, name, value, onChange, children }) {
   return (
     <div className="space-y-3">
@@ -218,6 +214,27 @@ export default function WorkWithUs() {
   const [error, setError] = useState("");
   const [showMobileFormButton, setShowMobileFormButton] = useState(true);
   const formSectionRef = useRef(null);
+
+  const [showMobileCTA, setShowMobileCTA] = useState(true);
+
+  useEffect(() => {
+    const element = formSectionRef.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowMobileCTA(!entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   const [hasSubmitted, setHasSubmitted] = useState(
     () => localStorage.getItem("work_with_us_submitted") === "true",
@@ -635,32 +652,15 @@ export default function WorkWithUs() {
           <SectionIntro
             eyebrow="الخطوة التالية"
             title="أخبرنا عن مشروعك"
-            description="املأ المعلومات التالية بالتفصيل. كلما كانت المعلومات أدق، كان بإمكاننا فهم مشروعك وتقييم إمكانية التعاون بشكل أفضل."
+            description="املأ المعلومات التالية بدقة لمساعدتنا على فهم مشروعك وتقييم التعاون"
           />
 
           <form
             onSubmit={handleSubmit}
-            className="mt-10 rounded-[26px] border-2 border-slate-200 bg-white p-4 shadow-[0_25px_70px_rgba(15,23,42,0.08)] sm:mt-14 sm:rounded-[30px] sm:p-7 md:p-10"
+            className="mt-3 rounded-[26px] border-2 border-slate-200 bg-white p-4 shadow-[0_25px_70px_rgba(15,23,42,0.08)] sm:mt-10 sm:rounded-[30px] sm:p-7 md:p-10"
           >
-            <div className="mb-10 rounded-3xl bg-slate-50 p-6 md:p-7">
-              <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-                  <FileCheck2 size={26} />
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-black text-slate-900 md:text-2xl">
-                    معلومات المشروع
-                  </h3>
-
-                  <p className="mt-2 text-base font-semibold leading-7 text-slate-500 md:text-lg">
-                    جميع المعلومات مطلوبة حتى نتمكن من تقييم المشروع بشكل صحيح.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
+            {/* Basic Information */}
+            <div className="grid gap-7 md:grid-cols-2 md:gap-x-4 md:gap-y-2.5">
               <InputField
                 label="الاسم الكامل"
                 name="fullName"
@@ -735,10 +735,11 @@ export default function WorkWithUs() {
               />
             </div>
 
-            <div className="mt-8 space-y-3">
+            {/* Current Problem */}
+            <div className="mt-5">
               <label
                 htmlFor="threeMonthGoal"
-                className="block text-[17px] font-black leading-7 text-slate-900 md:text-lg"
+                className="mb-1.5 block text-[17px] font-black leading-7 text-slate-900 md:text-lg"
               >
                 ما أهم مشكلة تواجهها حاليًا في الإعلانات؟
                 <span className="mr-1 text-blue-600">*</span>
@@ -750,14 +751,15 @@ export default function WorkWithUs() {
                 value={form.threeMonthGoal}
                 onChange={handleChange}
                 required
-                rows={6}
+                rows={5}
                 placeholder="مثال: تكلفة الطلب مرتفعة، الحملات لا تتوسع، الكرياتيفات لا تحقق نتائج، لا أعرف أين أضع الميزانية..."
-                className="w-full resize-none rounded-2xl border-2 border-slate-200 bg-white px-5 py-5 text-[17px] font-semibold leading-8 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 md:px-6 md:text-lg"
+                className="w-full resize-none rounded-2xl border-2 border-slate-200 bg-white px-5 py-4 text-[17px] font-semibold leading-8 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 md:px-6 md:text-lg"
               />
             </div>
 
-            <div className="mt-8">
-              <div className="mb-3 flex items-center justify-between gap-4">
+            {/* Project Description */}
+            <div className="mt-5">
+              <div className="mb-1.5 flex items-center justify-between gap-4">
                 <label
                   htmlFor="projectDescription"
                   className="block text-[17px] font-black leading-7 text-slate-900 md:text-lg"
@@ -784,9 +786,9 @@ export default function WorkWithUs() {
                 onChange={handleChange}
                 required
                 minLength={100}
-                rows={10}
+                rows={8}
                 placeholder="اشرح لنا طبيعة مشروعك، منذ متى تعمل، المنتجات التي تبيعها، السوق المستهدف، النتائج الحالية، المشاكل التي تواجهها، وما الذي تريد تحسينه في الإعلانات..."
-                className={`w-full resize-none rounded-2xl border-2 bg-white px-5 py-5 text-[17px] font-semibold leading-8 text-slate-900 outline-none transition placeholder:text-slate-400 md:px-6 md:text-lg ${
+                className={`w-full resize-none rounded-2xl border-2 bg-white px-5 py-4 text-[17px] font-semibold leading-8 text-slate-900 outline-none transition placeholder:text-slate-400 md:px-6 md:text-lg ${
                   descriptionValid
                     ? "border-emerald-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10"
                     : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
@@ -794,31 +796,33 @@ export default function WorkWithUs() {
               />
 
               {!descriptionValid && descriptionLength > 0 && (
-                <div className="mt-3 flex items-center gap-2 text-sm font-bold leading-7 text-amber-600 md:text-base">
+                <div className="mt-1.5 flex items-center gap-2 text-sm font-bold leading-7 text-amber-600 md:text-base">
                   <Clock3 size={18} />
                   أضف {100 - descriptionLength} حرف على الأقل.
                 </div>
               )}
 
               {descriptionValid && (
-                <div className="mt-3 flex items-center gap-2 text-sm font-bold text-emerald-600 md:text-base">
+                <div className="mt-1.5 flex items-center gap-2 text-sm font-bold text-emerald-600 md:text-base">
                   <Check size={18} />
                   الوصف مستوفي الحد الأدنى.
                 </div>
               )}
             </div>
 
+            {/* Error */}
             {status === "error" && (
-              <div className="mt-7 flex items-start gap-3 rounded-2xl border-2 border-red-100 bg-red-50 p-5 text-base font-bold leading-8 text-red-700">
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border-2 border-red-100 bg-red-50 p-5 text-base font-bold leading-8 text-red-700">
                 <XCircle size={23} className="mt-1 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={!formValid || status === "loading" || hasSubmitted}
-              className="mt-8 flex h-[68px] w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 px-5 text-[18px] font-black text-white shadow-xl shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/30 disabled:cursor-not-allowed disabled:opacity-40 md:mt-9 md:h-[74px] md:px-6 md:text-xl"
+              className="mt-6 flex h-[68px] w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 px-5 text-[18px] font-black text-white shadow-xl shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/30 disabled:cursor-not-allowed disabled:opacity-40 md:h-[74px] md:px-6 md:text-xl"
             >
               {status === "loading" ? (
                 <>
@@ -838,7 +842,8 @@ export default function WorkWithUs() {
               )}
             </button>
 
-            <p className="mt-5 text-center text-sm font-semibold leading-7 text-slate-400 md:text-base">
+            {/* Bottom Note */}
+            <p className="mt-4 text-center text-sm font-semibold leading-7 text-slate-400 md:text-base">
               جميع الحقول مطلوبة. بعد إرسال الطلب، سيتم مراجعته والتواصل معك
               خلال ساعة واحدة لاستكمال التفاصيل.
             </p>
@@ -864,24 +869,84 @@ export default function WorkWithUs() {
             التفاصيل.
           </p>
 
-          <a
-            href="#application"
-            className="mt-9 inline-flex items-center gap-3 rounded-2xl bg-blue-600 px-8 py-5 text-[18px] font-black text-white shadow-[0_16px_40px_rgba(37,99,235,0.35)] transition hover:bg-blue-500 sm:px-9 md:text-lg"
+          <button
+            type="button"
+            onClick={() => {
+              const element = document.getElementById("application");
+
+              if (!element) return;
+
+              const startY = window.scrollY;
+              const targetY =
+                element.getBoundingClientRect().top + window.scrollY;
+
+              const distance = targetY - startY;
+              const duration = 1700;
+              let startTime = null;
+
+              const easeInOutCubic = (t) =>
+                t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+              const animateScroll = (currentTime) => {
+                if (!startTime) startTime = currentTime;
+
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                const easedProgress = easeInOutCubic(progress);
+
+                window.scrollTo(0, startY + distance * easedProgress);
+
+                if (progress < 1) {
+                  requestAnimationFrame(animateScroll);
+                }
+              };
+
+              requestAnimationFrame(animateScroll);
+            }}
+            className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-8 py-2 text-[18px] font-black text-white shadow-[0_16px_40px_rgba(37,99,235,0.35)] transition hover:bg-blue-500 sm:px-9 md:text-lg"
           >
             احجز مكانك الآن
             <ArrowLeft size={23} />
-          </a>
+          </button>
         </div>
       </section>
 
-      {showMobileFormButton && status !== "success" && (
+      {showMobileCTA && (
         <button
           type="button"
           onClick={() => {
-            formSectionRef.current?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
+            const element = formSectionRef.current;
+
+            if (!element) return;
+
+            const startY = window.scrollY;
+            const targetY =
+              element.getBoundingClientRect().top + window.scrollY;
+
+            const distance = targetY - startY;
+            const duration = 1700;
+            let startTime = null;
+
+            const easeInOutCubic = (t) =>
+              t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            const animateScroll = (currentTime) => {
+              if (!startTime) startTime = currentTime;
+
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+
+              const easedProgress = easeInOutCubic(progress);
+
+              window.scrollTo(0, startY + distance * easedProgress);
+
+              if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+              }
+            };
+
+            requestAnimationFrame(animateScroll);
           }}
           className="fixed bottom-2 left-7 right-7 z-50 flex h-12 items-center justify-center gap-3 rounded-xl border border-blue-400/25 bg-blue-600 px-5 text-[15px] font-black text-white shadow-[0_10px_30px_rgba(37,99,235,0.35)] [animation:mobileCtaFloat_3s_ease-in-out_infinite] md:hidden"
           aria-label="الانتقال مباشرة إلى نموذج الشراكة"
