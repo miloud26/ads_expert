@@ -1,14 +1,13 @@
 import React from "react";
 
 const Header: React.FC = () => {
-  const bookingLink = "https://wa.me/213777651022";
+  const bookingLink = "/contact";
 
   return (
     <header className="bg-[#0a0d1f] py-4 px-4 sm:px-10 md:px-20 flex justify-between items-center sticky top-0 z-50">
       {/* Booking Button on the Left */}
       <a
         href={bookingLink}
-        target="_blank"
         rel="noopener noreferrer"
         className="bg-[#00c9ff] hover:bg-[#00b0e0] text-white font-bold py-3 px-6 sm:px-8 rounded-full flex items-center transition-all duration-300 shadow-lg whitespace-nowrap text-sm sm:text-base"
       >

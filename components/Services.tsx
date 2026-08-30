@@ -2,7 +2,7 @@ import React from "react";
 import { Layers, Video, Search, Megaphone } from "lucide-react";
 
 const Services: React.FC = () => {
-  const bookingLink = "https://wa.me/213777651022";
+  const bookingLink = "/contact";
 
   const services = [
     {
@@ -78,7 +78,6 @@ const Services: React.FC = () => {
       <div className="flex justify-center mt-12 md:mt-20">
         <a
           href={bookingLink}
-          target="_blank"
           rel="noopener noreferrer"
           className="w-full sm:w-auto bg-[#3b82f6] hover:bg-blue-600 text-white font-black py-4 px-10 md:px-16 rounded-lg flex items-center justify-center shadow-2xl transition-all hover:-translate-y-1 text-lg"
         >

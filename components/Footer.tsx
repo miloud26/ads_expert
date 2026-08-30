@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer: React.FC = () => {
-  const bookingLink = "https://wa.me/213777651022";
+  const bookingLink = "contact";
 
   return (
     <footer className="bg-[#0a0d1f] text-white pt-20 md:pt-32 pb-10 md:pb-16 px-4 sm:px-10 md:px-20">
@@ -15,7 +15,6 @@ const Footer: React.FC = () => {
 
         <a
           href={bookingLink}
-          target="_blank"
           rel="noopener noreferrer"
           className="w-full sm:w-auto bg-[#3b82f6] hover:bg-blue-600 text-white font-black py-4 md:py-6 px-10 md:px-20 rounded-xl flex items-center justify-center mx-auto mb-16 md:mb-28 text-xl md:text-3xl shadow-[0_20px_50px_rgba(59,130,246,0.3)] transition-all hover:scale-105"
         >

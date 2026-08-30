@@ -1,7 +1,7 @@
 import React from "react";
 
 const Philosophy: React.FC = () => {
-  const bookingLink = "https://wa.me/213777651022";
+  const bookingLink = "/contact";
 
   return (
     <section className="py-16 md:py-24 bg-white px-4 sm:px-10 md:px-20">
@@ -69,7 +69,6 @@ const Philosophy: React.FC = () => {
 
           <a
             href={bookingLink}
-            target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto mt-8 md:mt-12 bg-[#3b82f6] hover:bg-blue-600 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-lg flex items-center justify-center mr-auto md:mr-0 transition-transform hover:scale-105 shadow-xl text-lg"
           >

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Play } from "lucide-react";
 
 const Hero: React.FC = () => {
-  const bookingLink = "https://wa.me/213777651022";
+  const bookingLink = "/contact";
 
   // Direct Cloudinary MP4 video URL
   const videoUrl =
@@ -40,7 +40,6 @@ const Hero: React.FC = () => {
           <div className="flex justify-start md:block">
             <a
               href={bookingLink}
-              target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto bg-[#3b82f6] hover:bg-blue-600 text-white font-bold py-4 md:py-5 px-8 md:px-14 rounded-xl shadow-[0_20px_40px_rgba(59,130,246,0.3)] flex items-center justify-center transition-all hover:-translate-y-1 text-lg md:text-xl active:scale-95"
             >

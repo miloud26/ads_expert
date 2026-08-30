@@ -9,6 +9,7 @@ import CaseStudyPage from "./components/CaseStudyPage";
 import CaseStudy from "./components/CaseStudy";
 import Footer from "./components/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import WorkWithUs from "./WorkWithUs";
 
 const Home: React.FC = () => {
   return (
@@ -47,6 +48,16 @@ const App: React.FC = () => {
                   <CaseStudyPage />
                 </main>
                 <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <>
+                <main>
+                  <WorkWithUs />
+                </main>
               </>
             }
           />
