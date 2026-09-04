@@ -431,12 +431,12 @@ export default function WorkWithUs() {
           <div className="mx-auto mt-10 max-w-6xl sm:mt-12 md:mt-16">
             <div className="overflow-hidden rounded-[22px] border border-white/10 bg-black shadow-[0_25px_80px_rgba(0,0,0,0.5)] sm:rounded-[26px] md:rounded-[30px]">
               <div className="relative aspect-video">
-                <video
-                  className="h-full w-full object-cover"
-                  controls
-                  playsInline
-                  preload="metadata"
-                  src={MP4_VIDEO_URL}
+                <img
+                  src={
+                    "https://i.ibb.co/kfWGzg6/Chat-GPT-Image-Sep-4-2026-08-44-20-AM.png"
+                  }
+                  alt="Miloud Boudjellal - Media Buyer"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </div>
