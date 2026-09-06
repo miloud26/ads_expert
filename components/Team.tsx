@@ -5,7 +5,7 @@ const Team: React.FC = () => {
     {
       name: "Miloud Boudjellal",
       title: "Founder & CEO",
-      img: "https://i.ibb.co/C3gkGW74/688550376-122155246778985366-5655287712853084662-n-1.jpg",
+      img: "https://i.ibb.co/xKGrz74Q/2.webp",
     },
   ];
 

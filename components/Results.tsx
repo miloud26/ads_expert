@@ -1,18 +1,19 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Results: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const images = [
-    "https://i.ibb.co/0jDmHXQ8/Screenshot-from-2026-08-27-16-33-38.png",
-    "https://i.ibb.co/nsdQ1YBS/Screenshot-from-2026-08-27-16-32-23.png",
-    "https://i.ibb.co/mCDgY9Kp/Screenshot-from-2026-08-27-16-31-09.png",
-    "https://i.ibb.co/zHtmKfJy/Screenshot-from-2026-08-27-16-30-34.png",
+    "https://i.ibb.co/jPdvvyjn/3.webp",
+    "https://i.ibb.co/gbmzTVdM/4.webp",
+    "https://i.ibb.co/Xfb3sbgg/5.webp",
+    "https://i.ibb.co/QFSpQzxG/6.webp",
   ];
 
   return (
     <>
-      <section className="py-16 md:py-24 bg-white px-4 sm:px-8 md:px-16 lg:px-20">
+      <section className="py-16 md:py-24 bg-[#f8f8f6] px-4 sm:px-8 md:px-16 lg:px-20">
         <div className="container mx-auto max-w-7xl">
           {/* Title */}
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-center mb-12 md:mb-20 text-[#0a0d1f] tracking-tight">
@@ -39,6 +40,16 @@ const Results: React.FC = () => {
                 </div>
               </button>
             ))}
+          </div>
+
+          {/* Case Studies Button */}
+          <div className="flex justify-center mt-12 md:mt-16">
+            <Link
+              to="/casestudy"
+              className="inline-flex items-center justify-center px-8 sm:px-10 py-4 sm:py-5 rounded-2xl bg-[#0a0d1f] text-white text-base sm:text-lg font-bold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:bg-[#11162d] focus:outline-none focus:ring-4 focus:ring-[#0a0d1f]/20"
+            >
+              شاهد دراسة حالات حية
+            </Link>
           </div>
         </div>
       </section>

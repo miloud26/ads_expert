@@ -2,34 +2,50 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Miloud Boudjellal | Media Buyer</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Favicon -->
     <link
       rel="icon"
       href="https://p.djinni.co/a8/5af141c272265a2c9fb205193decd1/apple-touch-icon_400.png"
     />
 
+    <!-- Custom CSS -->
     <style>
       body {
         font-family: "Cairo", "Tajawal", sans-serif;
         background-color: #ffffff;
         color: #0a0d1f;
       }
+
       .blue-glow {
         box-shadow: 0 0 20px rgba(0, 201, 255, 0.3);
       }
+
       .stat-card {
         background: linear-gradient(145deg, #0f172a, #0a0d1f);
+
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
     </style>
+
+    <!-- Import Map -->
     <script type="importmap">
       {
         "imports": {
@@ -40,25 +56,33 @@
         }
       }
     </script>
+
     <link rel="stylesheet" href="/index.css" />
 
     <!-- Meta Pixel Code -->
     <script>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
+
         n = f.fbq = function () {
           n.callMethod
             ? n.callMethod.apply(n, arguments)
             : n.queue.push(arguments);
         };
-        if (!f._fbq) f._fbq = n;
+
+        if (!f._fbq) {
+          f._fbq = n;
+        }
+
         n.push = n;
-        n.loaded = !0;
+        n.loaded = true;
         n.version = "2.0";
         n.queue = [];
+
         t = b.createElement(e);
-        t.async = !0;
+        t.async = true;
         t.src = v;
+
         s = b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t, s);
       })(
@@ -67,21 +91,28 @@
         "script",
         "https://connect.facebook.net/en_US/fbevents.js",
       );
+
       fbq("init", "3257430607782276");
       fbq("track", "PageView");
     </script>
-    <noscript
-      ><img
+    <!-- End Meta Pixel Code -->
+  </head>
+
+  <body>
+    <!-- Meta Pixel Noscript -->
+    <noscript>
+      <img
         height="1"
         width="1"
         style="display: none"
         src="https://www.facebook.com/tr?id=3257430607782276&ev=PageView&noscript=1"
-    /></noscript>
+        alt=""
+      />
+    </noscript>
+    <!-- End Meta Pixel Noscript -->
 
-    <!--  End Meta Pixel Code -->
-  </head>
-  <body>
     <div id="root"></div>
+
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

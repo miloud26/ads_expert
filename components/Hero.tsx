@@ -4,8 +4,7 @@ import { X, ZoomIn } from "lucide-react";
 const Hero: React.FC = () => {
   const bookingLink = "/contact";
 
-  const imageUrl =
-    "https://i.ibb.co/kfWGzg6/Chat-GPT-Image-Sep-4-2026-08-44-20-AM.png";
+  const imageUrl = "https://i.ibb.co/1NjF2C3/1.webp";
 
   const [isImageOpen, setIsImageOpen] = useState(false);
 

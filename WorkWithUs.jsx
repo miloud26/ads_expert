@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   Check,
@@ -15,6 +16,9 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
+
+import Results from "./components/Results";
+
 const InputField = ({
   label,
   name,
@@ -76,13 +80,18 @@ async function sendToTelegram(form) {
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+      }),
     },
   );
 
   const data = await response.json();
-  if (!response.ok || !data.ok)
+
+  if (!response.ok || !data.ok) {
     throw new Error(data.description || "فشل إرسال الطلب إلى Telegram.");
+  }
 }
 
 const initialForm = {
@@ -157,6 +166,7 @@ function SectionIntro({ eyebrow, title, description, dark = false }) {
       >
         {eyebrow}
       </span>
+
       <h2
         className={`mt-4 text-4xl font-black leading-[1.25] tracking-tight sm:text-[42px] md:text-5xl lg:text-[56px] ${
           dark ? "text-white" : "text-slate-950"
@@ -164,6 +174,7 @@ function SectionIntro({ eyebrow, title, description, dark = false }) {
       >
         {title}
       </h2>
+
       <p
         className={`mx-auto mt-6 max-w-2xl text-lg font-medium leading-9 md:text-xl ${
           dark ? "text-slate-300" : "text-slate-600"
@@ -209,6 +220,8 @@ function SelectField({ label, name, value, onChange, children }) {
 }
 
 export default function WorkWithUs() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -289,9 +302,11 @@ export default function WorkWithUs() {
     updateMobileButtonVisibility();
 
     const handleResize = () => updateMobileButtonVisibility();
+
     window.addEventListener("scroll", updateMobileButtonVisibility, {
       passive: true,
     });
+
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -338,18 +353,19 @@ export default function WorkWithUs() {
 
     try {
       await sendToTelegram(form);
+
       setStatus("success");
       setForm(initialForm);
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      // التحويل إلى صفحة دراسة الحالات بعد نجاح الإرسال
+      navigate("/casestudy");
     } catch (submitError) {
       console.error(submitError);
+
       setError(
         submitError.message || "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى.",
       );
+
       setStatus("error");
     }
   };
@@ -390,6 +406,7 @@ export default function WorkWithUs() {
               type="button"
               onClick={() => {
                 setStatus("idle");
+
                 setTimeout(() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }, 50);
@@ -432,17 +449,17 @@ export default function WorkWithUs() {
             <div className="overflow-hidden rounded-[22px] border border-white/10 bg-black shadow-[0_25px_80px_rgba(0,0,0,0.5)] sm:rounded-[26px] md:rounded-[30px]">
               <div className="relative aspect-video">
                 <img
-                  src={
-                    "https://i.ibb.co/kfWGzg6/Chat-GPT-Image-Sep-4-2026-08-44-20-AM.png"
-                  }
+                  src="https://i.ibb.co/1NjF2C3/1.webp"
                   alt="Miloud Boudjellal - Media Buyer"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <Results />
 
       <section className="bg-white px-4 py-16 sm:px-6 md:py-28 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -468,10 +485,12 @@ export default function WorkWithUs() {
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
                     <ShieldCheck size={28} />
                   </div>
+
                   <div>
                     <div className="text-base font-black text-blue-700">
                       حد الجاهزية المفضل
                     </div>
+
                     <p className="mt-2 text-lg font-bold leading-8 text-slate-800 md:text-xl">
                       أكثر من{" "}
                       <strong className="text-slate-950">
@@ -496,6 +515,7 @@ export default function WorkWithUs() {
                       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white">
                         <Icon size={27} />
                       </div>
+
                       <span className="text-sm font-black tracking-[0.2em] text-slate-300">
                         {item.number}
                       </span>
@@ -571,10 +591,12 @@ export default function WorkWithUs() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
                   <CheckCircle2 size={28} className="text-slate-700" />
                 </div>
+
                 <div>
                   <h3 className="text-xl font-black md:text-2xl">
                     ما يجب أن توفره
                   </h3>
+
                   <p className="mt-1 text-sm font-bold text-slate-400 md:text-base">
                     مسؤوليات المشروع
                   </p>
@@ -595,6 +617,7 @@ export default function WorkWithUs() {
                       size={21}
                       className="mt-1 shrink-0 text-emerald-500"
                     />
+
                     <span className="text-base font-bold leading-7 text-slate-700 md:text-lg">
                       {item}
                     </span>
@@ -608,10 +631,12 @@ export default function WorkWithUs() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/10">
                   <Zap size={28} className="text-blue-400" />
                 </div>
+
                 <div>
                   <h3 className="text-xl font-black md:text-2xl">
                     ما نتولاه نحن
                   </h3>
+
                   <p className="mt-1 text-sm font-bold text-slate-500 md:text-base">
                     الجانب الإعلاني
                   </p>
@@ -632,6 +657,7 @@ export default function WorkWithUs() {
                       size={21}
                       className="mt-1 shrink-0 text-blue-400"
                     />
+
                     <span className="text-base font-bold leading-7 text-slate-200 md:text-lg">
                       {item}
                     </span>
@@ -659,7 +685,6 @@ export default function WorkWithUs() {
             onSubmit={handleSubmit}
             className="mt-3 rounded-[26px] border-2 border-slate-200 bg-white p-4 shadow-[0_25px_70px_rgba(15,23,42,0.08)] sm:mt-10 sm:rounded-[30px] sm:p-7 md:p-10"
           >
-            {/* Basic Information */}
             <div className="grid gap-7 md:grid-cols-2 md:gap-x-4 md:gap-y-2.5">
               <InputField
                 label="الاسم الكامل"
@@ -735,7 +760,6 @@ export default function WorkWithUs() {
               />
             </div>
 
-            {/* Current Problem */}
             <div className="mt-5">
               <label
                 htmlFor="threeMonthGoal"
@@ -757,7 +781,6 @@ export default function WorkWithUs() {
               />
             </div>
 
-            {/* Project Description */}
             <div className="mt-5">
               <div className="mb-1.5 flex items-center justify-between gap-4">
                 <label
@@ -810,7 +833,6 @@ export default function WorkWithUs() {
               )}
             </div>
 
-            {/* Error */}
             {status === "error" && (
               <div className="mt-5 flex items-start gap-3 rounded-2xl border-2 border-red-100 bg-red-50 p-5 text-base font-bold leading-8 text-red-700">
                 <XCircle size={23} className="mt-1 shrink-0" />
@@ -818,7 +840,6 @@ export default function WorkWithUs() {
               </div>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={!formValid || status === "loading" || hasSubmitted}
@@ -842,7 +863,6 @@ export default function WorkWithUs() {
               )}
             </button>
 
-            {/* Bottom Note */}
             <p className="mt-4 text-center text-sm font-semibold leading-7 text-slate-400 md:text-base">
               جميع الحقول مطلوبة. بعد إرسال الطلب، سيتم مراجعته والتواصل معك
               خلال ساعة واحدة لاستكمال التفاصيل.
@@ -882,6 +902,7 @@ export default function WorkWithUs() {
 
               const distance = targetY - startY;
               const duration = 1700;
+
               let startTime = null;
 
               const easeInOutCubic = (t) =>
@@ -926,6 +947,7 @@ export default function WorkWithUs() {
 
             const distance = targetY - startY;
             const duration = 1700;
+
             let startTime = null;
 
             const easeInOutCubic = (t) =>
