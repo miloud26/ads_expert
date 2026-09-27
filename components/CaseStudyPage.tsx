@@ -1,33 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface CaseStudyItem {
   title: string;
   youtubeUrl: string;
   description: string;
+  poster: string;
 }
 
 const caseStudies: CaseStudyItem[] = [
   {
-    title: "دراسة حالة — متجر إلكتروني",
-    youtubeUrl: "https://www.youtube.com/embed/YOUTUBE_VIDEO_ID",
+    title: "5,000+ مبيعة بـ1.2$ فقط! | كيف حققنا هذه النتائج مع منتج شبه طبي؟",
+    youtubeUrl: "https://www.youtube.com/embed/vC1meshGkcg",
+    poster: "https://i.ibb.co/g093y0w/1-1-1.webp",
     description:
-      "قمنا بتطوير استراتيجية تسويقية متكاملة ساهمت في تحسين أداء الحملات وزيادة المبيعات بشكل ملحوظ.",
+      "دراسة حالة حقيقية لمنتج شبه طبي: كيف حققنا أكثر من 5,000 مبيعة بتكلفة وصلت إلى 1.2$ للمبيعة عبر 6 حسابات إعلانية؟",
   },
   {
-    title: "دراسة حالة — مشروع آخر",
-    youtubeUrl: "https://www.youtube.com/embed/YOUTUBE_VIDEO_ID",
+    title:
+      "31,000+ مبيعة بتكلفة 0.80$ فقط! | دراسة حالة حقيقية لمنتجات الأدوات في الجزائر",
+    youtubeUrl: "https://www.youtube.com/embed/Mf56AKKrdvc",
+    poster: "https://i.ibb.co/ch26KZGc/2-1-1.webp",
     description:
-      "تحسين تجربة المستخدم وبناء صفحات مخصصة ساعد المشروع على رفع معدل التحويل وتحقيق نتائج أفضل.",
+      "31,000+ مبيعة بتكلفة وصلت إلى 0.80$ فقط! شاهد دراسة حالة حقيقية لمنتجات الأدوات في الجزائر بالأرقام.",
   },
   {
-    title: "دراسة حالة — E-commerce",
-    youtubeUrl: "https://www.youtube.com/embed/YOUTUBE_VIDEO_ID",
+    title:
+      "20,000$ إنفاق إعلاني و1,900+ مبيعة! | دراسة حالة حقيقية لمنتجات الصين في الجزائر",
+    youtubeUrl: "https://www.youtube.com/embed/vC1meshGkcg",
+    poster: "https://i.ibb.co/Rp3xwzj6/3-1-1.webp",
     description:
-      "من خلال تحليل البيانات واختبار عدة زوايا إعلانية، تم الوصول إلى استراتيجية أكثر استقراراً وقابلية للتوسع.",
+      "20,000$+ إنفاق إعلاني وآلاف المبيعات! دراسة حالة حقيقية لشريك في منتجات الصين مع نتائج موثقة من الحسابات الإعلانية.",
   },
 ];
 
 const CaseStudyPage: React.FC = () => {
+  const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -35,6 +43,7 @@ const CaseStudyPage: React.FC = () => {
       behavior: "instant",
     });
   }, []);
+
   return (
     <section
       dir="rtl"
@@ -91,14 +100,64 @@ const CaseStudyPage: React.FC = () => {
                     md:mt-12
                   "
                 >
-                  <div className="aspect-video w-full">
+                  <div className="relative aspect-video w-full">
+                    {/* YouTube Video */}
                     <iframe
                       src={item.youtubeUrl}
                       title={item.title}
-                      className="h-full w-full"
+                      className="absolute inset-0 h-full w-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                     />
+
+                    {/* Poster Overlay */}
+                    {playingVideo !== index && (
+                      <button
+                        type="button"
+                        onClick={() => setPlayingVideo(index)}
+                        className="absolute inset-0 z-10 h-full w-full cursor-pointer"
+                        aria-label={`تشغيل ${item.title}`}
+                      >
+                        <img
+                          src={item.poster}
+                          alt={item.title}
+                          className="absolute inset-0 h-full w-full object-cover"
+                        />
+
+                        {/* Dark Overlay */}
+                        <div className="absolute inset-0 bg-black/10 transition-colors duration-300 hover:bg-black/25" />
+
+                        {/* Play Button */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="
+                              flex
+                              h-20
+                              w-20
+                              items-center
+                              justify-center
+                              rounded-full
+                              bg-white
+                              shadow-2xl
+                              transition-transform
+                              duration-300
+                              hover:scale-110
+                              sm:h-24
+                              sm:w-24
+                            "
+                          >
+                            <svg
+                              className="mr-[-4px] h-9 w-9 text-[#0a0d1f] sm:h-11 sm:w-11"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </button>
+                    )}
                   </div>
                 </div>
               </article>
